@@ -1,0 +1,21 @@
+{
+  "name": "personal-media-center-aws",
+  "version": "1.0.0",
+  "description": "AWS Cloudformation template for nextcloud with S3 bucket AWS using EC2 Spot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generate-vpc": "cloudform vpc.ts > output/vpc.json",
+    "generate-pms": "cloudform pms.ts > output/pms.json",
+    "generate": "npm run generate-vpc && npm run generate-pms",
+    "lint": "cfn-lint validate output/vpc.json && cfn-lint validate output/pms.json",
+    "start": "npm run generate && npm run lint"
+  },
+  "author": "ibhi",
+  "license": "MIT",
+  "devDependencies": {
+    "aws-sdk": "^2.395.0",
+    "cfn-lint": "^1.9.4",
+    "cloudform": "^3.7.0"
+  }
+}
