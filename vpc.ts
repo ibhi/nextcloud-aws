@@ -86,6 +86,53 @@ export default cloudform({
             VPC: {
                 CIDR: '10.0.0.0/16'
             }
+        },
+        Ubuntu: {
+            'ap-south-1': {
+                AMI: 'ami-188fba77'
+            },
+            'eu-west-3': {
+                AMI: 'ami-20ee5e5d'
+            },
+            'eu-west-2': {
+                AMI: 'ami-6b3fd60c'
+            },
+            'eu-west-1': {
+                AMI: 'ami-2a7d75c0'
+            },
+            'ap-northeast-2': {
+                AMI: 'ami-467acf28'
+            },
+            'ap-northeast-1': {
+                AMI: 'ami-940cdceb'
+            },
+            'sa-east-1': {
+                AMI: 'ami-8eecc9e2'
+            },
+            'ca-central-1': {
+                AMI: 'ami-db9e1cbf'
+            },
+            'ap-southeast-1': {
+                AMI: 'ami-51a7aa2d'
+            },
+            'ap-southeast-2': {
+                AMI: 'ami-47c21a25'
+            },
+            'eu-central-1': {
+                AMI: 'ami-de8fb135'
+            },
+            'us-east-1': {
+                AMI: 'ami-759bc50a'
+            },
+            'us-east-2': {
+                AMI: 'ami-5e8bb23b'
+            },
+            'us-west-1': {
+                AMI: 'ami-4aa04129'
+            },
+            'us-west-2': {
+                AMI: 'ami-ba602bc2'
+            }
         }
     },
     Parameters: {
@@ -330,8 +377,7 @@ function createLaunchSpecification(instanceType: Value<string>) {
                 Ebs: new EC2.SpotFleet.EbsBlockDevice({
                     VolumeSize: 40,
                     VolumeType: 'gp2',
-                    DeleteOnTermination: true,
-                    SnapshotId: Fn.Ref('CacheSnapshotId')
+                    DeleteOnTermination: false
                 })
             })
         ],

@@ -5,10 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "generate-vpc": "cloudform vpc.ts > output/vpc.json",
-    "generate-pms": "cloudform pms.ts > output/pms.json",
-    "generate": "npm run generate-vpc && npm run generate-pms",
-    "lint": "cfn-lint validate output/vpc.json && cfn-lint validate output/pms.json",
+    "generate": "cloudform vpc.ts > output/vpc.json",
+    "lint": "cfn-lint validate output/vpc.json",
     "start": "npm run generate && npm run lint"
   },
   "author": "ibhi",
