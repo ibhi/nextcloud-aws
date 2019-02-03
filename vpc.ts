@@ -3,7 +3,7 @@ import cloudform, { Fn, Refs, EC2, StringParameter, ResourceTag, Route53, Number
 
 const USER_DATA: string = `#!/bin/bash -xe
 apt-get update
-apt-get upgrade -y
+apt-get upgrade -y --force-yes
 apt-get install \
     apt-transport-https \
     ca-certificates \
