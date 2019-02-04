@@ -31,13 +31,13 @@ client.getSecretValue({ SecretId: secretName }, (err, data) => {
         if (data.SecretString !== "") {
             secret = JSON.parse(data.SecretString);
             const fileContent = `#!/bin/bash -xe
-            export NEXTCLOUD_ADMIN_USER=${secret.nextcloud_admin_user}
-            export NEXTCLOUD_ADMIN_PASSWORD=${secret.nextcloud_admin_password}
-            export MYSQL_DATABASE=${secret.mysql_database}
-            export MYSQL_USER=${secret.mysql_user}
-            export MYSQL_PASSWORD=${secret.mysql_password}
-            export MYSQL_ROOT_PASSWORD=${secret.mysql_root_password}
-            `;
+export NEXTCLOUD_ADMIN_USER=${secret.nextcloud_admin_user}
+export NEXTCLOUD_ADMIN_PASSWORD=${secret.nextcloud_admin_password}
+export MYSQL_DATABASE=${secret.mysql_database}
+export MYSQL_USER=${secret.mysql_user}
+export MYSQL_PASSWORD=${secret.mysql_password}
+export MYSQL_ROOT_PASSWORD=${secret.mysql_root_password}
+`;
             fs.writeFile('/home/ubuntu/nextcloud-aws/secrets.sh', fileContent, (err) => {
                 if (err) throw err;
                 console.log('/home/ubuntu/nextcloud-aws/secrets.sh file successfully created');
