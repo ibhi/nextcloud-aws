@@ -382,7 +382,7 @@ function createLaunchSpecification(instanceType: Value<string>) {
         SubnetId: Fn.Join(',', [publicSubnet1Id, publicSubnet2Id]),
         BlockDeviceMappings: [
             new EC2.SpotFleet.BlockDeviceMapping({
-                DeviceName: '/dev/sdk',
+                DeviceName: '/dev/sda1',
                 Ebs: new EC2.SpotFleet.EbsBlockDevice({
                     VolumeSize: 40,
                     VolumeType: 'gp2',
