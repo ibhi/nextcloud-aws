@@ -58,8 +58,18 @@ EOF
 cd /tmp && curl -sO https://s3.amazonaws.com/aws-cloudwatch/downloads/latest/awslogs-agent-setup.py
 python /tmp/awslogs-agent-setup.py -n -r \${AWS::Region} -c /tmp/awslogs.conf
 
+# Setup and mount EBS as cache folder for rclone
+fstype=\`file -s /dev/nvme1n1\`
+if [ "$fstype" == "/dev/nvme1n1: data" ]
+then
+mkfs -t ext4 /dev/nvme1n1
+fi
+mkdir -p /data
+mount /dev/nvme1n1 /data
+echo "/dev/nvme1n1 /data ext4 defaults,nofail 0 2" >> /etc/fstab
+
 # Git repo clone and env setup
-cd /home/ubuntu
+cd /data
 git clone https://github.com/ibhi/nextcloud-aws.git
 cd nextcloud-aws
 chmod 600 acme.json
@@ -382,7 +392,7 @@ function createLaunchSpecification(instanceType: Value<string>) {
         SubnetId: Fn.Join(',', [publicSubnet1Id, publicSubnet2Id]),
         BlockDeviceMappings: [
             new EC2.SpotFleet.BlockDeviceMapping({
-                DeviceName: '/dev/sda1',
+                DeviceName: '/dev/sdk',
                 Ebs: new EC2.SpotFleet.EbsBlockDevice({
                     VolumeSize: 40,
                     VolumeType: 'gp2',

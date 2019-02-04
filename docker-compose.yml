@@ -1,11 +1,11 @@
 version: '2.1'
-volumes:
-  nextcloud:
-    driver: local
-  db:
-    driver: local
-  backup:
-    driver: local
+# volumes:
+#   nextcloud:
+#     driver: local
+#   db:
+#     driver: local
+#   backup:
+#     driver: local
 services:
   proxy:
     # You might want to use a proper version
@@ -27,8 +27,8 @@ services:
       - traefik.docker.network=web
     volumes: 
       - /var/run/docker.sock:/var/run/docker.sock 
-      - /home/ubuntu/nextcloud-aws/traefik.toml:/traefik.toml 
-      - /home/ubuntu/nextcloud-aws/acme.json:/acme.json
+      - /data/nextcloud-aws/traefik.toml:/traefik.toml 
+      - /data/nextcloud-aws/acme.json:/acme.json
   nextcloud:
     image: nextcloud:latest
     restart: unless-stopped
@@ -52,7 +52,7 @@ services:
       - traefik.port=80
       - traefik.docker.network=web
     volumes:
-      - nextcloud:/var/www/html
+      - /data/nextcloud:/var/www/html
   db:
     image: mariadb:latest
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
@@ -63,8 +63,8 @@ services:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
     volumes:
-      - db:/var/lib/mysql
-      - backup:/var/lib/backup
+      - /data/db:/var/lib/mysql
+      - /data/backup:/var/lib/backup
     networks:
       - internal
 
