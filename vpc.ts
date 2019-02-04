@@ -27,9 +27,6 @@ sudo apt-get install -y nodejs
 export EC2_INSTANCE_ID="\`wget -q -O - http://169.254.169.254/latest/meta-data/instance-id || die \"wget instance-id has failed: $?\"\`"
 export ALLOCATION_ID=\${ElasticIp.AllocationId}
 
-# Wait for the Elastic IP association to complete
-sleep 15s
-
 # Setup logs
 cat <<EOF > /tmp/awslogs.conf
 [general]
@@ -61,12 +58,19 @@ EOF
 cd /tmp && curl -sO https://s3.amazonaws.com/aws-cloudwatch/downloads/latest/awslogs-agent-setup.py
 python /tmp/awslogs-agent-setup.py -n -r \${AWS::Region} -c /tmp/awslogs.conf
 
-cd /tmp
+# Git repo clone and env setup
+cd /home/ubuntu
 git clone https://github.com/ibhi/nextcloud-aws.git
 cd nextcloud-aws
 chmod 600 acme.json
 npm install
 node elastic-ip.js
+node secrets.js
+chmod +x secrets.sh
+./secrets.sh
+
+# Wait for the Elastic IP association to complete
+sleep 15s
 
 # Docker compose
 docker network create web
@@ -152,6 +156,9 @@ export default cloudform({
             Description: 'Spot Instance Bid Price',
             Default: 0.1
         }),
+        NextCloudSecrets: new StringParameter({
+            Description: 'Enter ARN for nextcloud secrets from AWS Secrets Manager'
+        })
     },
     Outputs: {
         VPC: {
@@ -432,7 +439,7 @@ function createSpotFleetInstanceRole() {
                             {
                                 Effect: 'Allow',
                                 Action: 'secretsmanager:GetSecretValue',
-                                Resource: 'arn:aws:secretsmanager:ap-south-1:782677160809:secret:gdrive-token-EFr0g3'
+                                Resource: Fn.Ref('NextCloudSecrets')
                             }
                         ]
                     },
