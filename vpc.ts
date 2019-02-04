@@ -70,6 +70,7 @@ node secrets.js
 chmod +x secrets.sh
 ./secrets.sh
 
+
 # Wait for the Elastic IP association to complete
 sleep 15s
 
