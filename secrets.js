@@ -2,13 +2,12 @@
 const AWS = require('aws-sdk'),
     endpoint = "https://secretsmanager.ap-south-1.amazonaws.com",
     region = "ap-south-1",
-    secretName = "prod/app/nextcloud-secrets",
-    secret;
+    secretName = "prod/app/nextcloud-secrets";
 
 const fs = require('fs');
 
 // Create a Secrets Manager client
-var client = new AWS.SecretsManager({
+const client = new AWS.SecretsManager({
     endpoint: endpoint,
     region: region
 });
@@ -28,6 +27,7 @@ client.getSecretValue({ SecretId: secretName }, (err, data) => {
     else {
         // Decrypted secret using the associated KMS CMK
         // Depending on whether the secret was a string or binary, one of these fields will be populated
+        let secret;
         if (data.SecretString !== "") {
             secret = JSON.parse(data.SecretString);
             const fileContent = `#!/bin/bash -xe

@@ -66,6 +66,7 @@ chmod 600 acme.json
 npm install
 node elastic-ip.js
 node secrets.js
+# Setup secrets
 chmod +x secrets.sh
 ./secrets.sh
 
