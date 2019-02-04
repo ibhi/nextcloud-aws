@@ -403,10 +403,7 @@ function createLaunchSpecification(instanceType: Value<string>) {
         UserData: Fn.Base64(Fn.Sub(
             USER_DATA, 
             {
-                'RCLONEHOME': '/home/ubuntu/.config/rclone',
-                'MOUNTTO': '/media',
                 'LOGS': '/var/log/rclone',
-                'UPLOADS': '/cache/uploads',
             }
         ))
     })

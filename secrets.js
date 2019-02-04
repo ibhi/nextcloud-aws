@@ -38,9 +38,9 @@ export MYSQL_USER=${secret.mysql_user}
 export MYSQL_PASSWORD=${secret.mysql_password}
 export MYSQL_ROOT_PASSWORD=${secret.mysql_root_password}
 `;
-            fs.writeFile('/home/ubuntu/nextcloud-aws/secrets.sh', fileContent, (err) => {
+            fs.writeFile('/data/nextcloud-aws/secrets.sh', fileContent, (err) => {
                 if (err) throw err;
-                console.log('/home/ubuntu/nextcloud-aws/secrets.sh file successfully created');
+                console.log('/data/nextcloud-aws/secrets.sh file successfully created');
             });
         } 
     }
